@@ -3,10 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/hamid/Documents/NetBeansProjects/MiniTweeter/src/java/fr/ecp/tweet/db/TestClass.java</file>
-            <file>file:/C:/Users/hamid/Documents/NetBeansProjects/MiniTweeter/src/java/fr/ecp/tweet/db/DbRepoMongo.java</file>
-            <file>file:/C:/Users/hamid/Documents/NetBeansProjects/MiniTweeter/src/java/fr/rcp/tweet/security/AccountManager.java</file>
-            <file>file:/C:/Users/hamid/Documents/NetBeansProjects/MiniTweeter/src/java/fr/ecp/tweet/service/GenericResource.java</file>
+            <file>file:/C:/Users/Hamid/Documents/GitHub/MiniTweeter/src/java/fr/ecp/tweet/db/DbRepository.java</file>
+            <file>file:/C:/Users/Hamid/Documents/GitHub/MiniTweeter/nbproject/build-impl.xml</file>
         </group>
     </open-files>
 </project-private>
