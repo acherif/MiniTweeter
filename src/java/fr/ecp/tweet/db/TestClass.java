@@ -5,6 +5,7 @@
  */
 package fr.ecp.tweet.db;
 
+import fr.ecp.tweet.exception.DbException;
 import fr.ecp.tweet.model.Tweet;
 import fr.ecp.tweet.model.User;
 import java.util.ArrayList;
@@ -72,6 +73,11 @@ public class TestClass implements IDbRepo{
     @Override
     public void addTweet(String handler, Tweet tweet) {
         System.out.println("handler = " + handler + "tweet = " + tweet.getContent() + ", " + tweet.getUserHandle());        
+    }
+
+    @Override
+    public String authenticate(String handler, String password) throws DbException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

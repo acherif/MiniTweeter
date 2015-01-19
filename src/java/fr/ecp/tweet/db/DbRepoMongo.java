@@ -66,6 +66,24 @@ public class DbRepoMongo implements IDbRepo{
         coll.insert(doc);
     }
     
+        public String authenticate(String handle, String password) throws DbException {
+        verifyUser(handle);
+        User user = getUser(handle);
+        if (!(user.getHandle().equals(handle) && AccountManager.generateHash(user.getPassword()).equals(password))) {
+            return null;
+        }
+
+        String hash = AccountManager.hash(System.currentTimeMillis() + "");
+        DBCollection coll = clientDB.getCollection("users");
+        DBObject searchQuery = new BasicDBObject().append("handle", handle);
+        DBObject modifiedObjectUser = new BasicDBObject();
+        modifiedObjectUser.put("token", hash);
+        coll.update(searchQuery, modifiedObjectUser);
+
+        return hash;
+        
+    }
+        
     @Override
     public List<User> getUsers() {
         List<User> users = new ArrayList<>();

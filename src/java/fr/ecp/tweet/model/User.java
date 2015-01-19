@@ -15,6 +15,8 @@ public class User {
     private String password;
     private String server;
     private String _id = "0";
+    private String picture;
+    private String token = null;
     
     public User(){
         
@@ -56,6 +58,22 @@ public class User {
 
     public void setUserId(String userId) {
         this._id = userId;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
     
     

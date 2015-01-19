@@ -22,6 +22,8 @@ public interface IDbRepo {
     
     public void addUser(User user) throws DbException; 
     
+    public String authenticate(String handler, String password) throws DbException;
+    
     public List<User> getUsers();
     
     public List<Tweet> getTweets(String handler) throws DbException;

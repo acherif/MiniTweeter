@@ -22,6 +22,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.Path;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
@@ -159,13 +160,24 @@ public class GenericResource {
             throw new ServicesException(ex.getMessage());
         }
     }
-//
-//    @POST
-//    @Path()
-//    @Produces("application/json")
-//    public void signIn(){
-//
-//    }
+    
+    @POST
+    @Path("/sessions")
+    @Produces("text/plain")
+    public String signIn(@HeaderParam("handle") String handle, @HeaderParam("password") String password) {
+        String hash = null;
+
+        try {
+            hash = db.authenticate(handle, password);
+        } catch (DbException ex) {
+            throw new ServicesException(ex.getMessage());
+        }
+        if (hash != null) {
+            return hash;
+        } else {
+            throw new ServicesException(GenericResource.class.getName() + " Handle ou mot de passe éroné");
+        }
+    }
     
 //    @Get
 //    @Path()
