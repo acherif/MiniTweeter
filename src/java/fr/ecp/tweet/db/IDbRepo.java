@@ -22,7 +22,9 @@ public interface IDbRepo {
     
     public void addUser(User user) throws DbException; 
     
-    public String authenticate(String handler, String password) throws DbException;
+    public boolean authenticate(String handler, String token) throws DbException;
+    
+    public String generateToken(String handler, String password) throws DbException;
     
     public List<User> getUsers();
     

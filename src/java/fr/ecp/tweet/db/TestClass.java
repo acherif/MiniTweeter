@@ -76,8 +76,15 @@ public class TestClass implements IDbRepo{
     }
 
     @Override
-    public String authenticate(String handler, String password) throws DbException {
+    public boolean authenticate(String handler, String token) throws DbException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public String generateToken(String handler, String password) throws DbException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+
     
 }
