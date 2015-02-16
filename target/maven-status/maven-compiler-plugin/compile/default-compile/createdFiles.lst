@@ -1,0 +1,12 @@
+fr\ecp\tweet\db\DbRepoMongo.class
+fr\ecp\tweet\service\SwaggerJaxrsConfig.class
+fr\ecp\tweet\service\ApplicationConfig.class
+fr\ecp\tweet\db\IDbRepo.class
+fr\rcp\tweet\security\AccountManager.class
+fr\ecp\tweet\service\GenericResource.class
+fr\ecp\tweet\model\User.class
+fr\ecp\tweet\exception\ServicesException.class
+fr\ecp\tweet\db\DbRepository.class
+fr\ecp\tweet\exception\DbException.class
+fr\ecp\tweet\model\Tweet.class
+fr\ecp\tweet\db\TestClass.class
