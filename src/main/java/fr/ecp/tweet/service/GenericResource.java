@@ -126,7 +126,7 @@ public class GenericResource {
     }
 
     @GET
-    @Path("{handle}/followers")
+    @Path("/{handle}/followers")
     @ApiOperation(value = "Get followers of a user", notes = "Get the list of followers of the user whos handle is specified")
     @ApiResponses(value = {
     @ApiResponse(code = 404, message = "Invalid handle supplied"),
@@ -147,7 +147,7 @@ public class GenericResource {
     }
 
     @GET
-    @Path("{handle}/followings")
+    @Path("/{handle}/followings")
     @ApiOperation(value = "Get followings of a user", notes = "Get the list of followings of the user whos handle is specified")
     @ApiResponses(value = {
     @ApiResponse(code = 404, message = "Invalid handle supplied"),
@@ -168,7 +168,7 @@ public class GenericResource {
     }
 
     @POST
-    @Path("{handle}/followings")
+    @Path("/{handle}/followings")
     @ApiOperation(value = "Follow a user", notes = "Follow the user whos handle is specified")
     @ApiResponse(code = 404, message = "Invalid handle supplied")
     public void follow(@PathParam("handle") String handle, String toFollowHandler){
@@ -181,7 +181,7 @@ public class GenericResource {
     }
 
     @DELETE
-    @Path("{handle}/followings")
+    @Path("/{handle}/followings")
     @Consumes("application/json")
     @ApiOperation(value = "Unfollow a user", notes = "Unfollow the user whos handle is specified")
     @ApiResponse(code = 404, message = "Invalid handle supplied")
