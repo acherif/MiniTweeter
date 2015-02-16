@@ -14,8 +14,8 @@ import javax.ws.rs.core.Response;
  * @author Hamid
  */
 public class ServicesException extends WebApplicationException {
-     public ServicesException(String message) {
-         super(Response.status(Response.Status.BAD_REQUEST)
+     public ServicesException(Response.Status responseType, String message) {
+         super(Response.status(responseType)
              .entity(message).type(MediaType.TEXT_PLAIN).build());
      }
 }

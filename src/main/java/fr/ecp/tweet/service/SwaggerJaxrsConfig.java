@@ -29,7 +29,7 @@ public class SwaggerJaxrsConfig extends HttpServlet {
             super.init(config); //To change body of generated methods, choose Tools | Templates.
             SwaggerConfig swaggerConfig = new SwaggerConfig();
             ConfigFactory.setConfig(swaggerConfig);
-            swaggerConfig.setBasePath("http://localhost:8080/MiniTweeter");
+            swaggerConfig.setBasePath("http://52.10.63.236:8080/MiniTweeter");
             swaggerConfig.setApiVersion("1.0.0");
             ScannerFactory.setScanner(new DefaultJaxrsScanner());
             ClassReaders.setReader(new DefaultJaxrsApiReader());

@@ -28,13 +28,15 @@ import javax.ws.rs.Path;
 import javax.ws.rs.GET;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
 
 /**
  * REST Web Service
  *
  * @author Hamid
  */
-@Path("generic")
+@Path("api")
+@Api(value = "api", description = "Federated mini Tweeter RESTFull API")
 public class GenericResource {
     
     @Context
@@ -72,28 +74,33 @@ public class GenericResource {
     @Path("/users")
     @Consumes("application/json")
     @ApiOperation(value = "Add a user", notes = "Add a user by specifying his handle, server and password")
+    @ApiResponse(code = 409, message = "User already exists")
     public void addUser(User user){        
         try {
             db.addUser(user);
         } catch (DbException ex) {
-            throw new ServicesException(ex.getMessage());
+            throw new ServicesException(Response.Status.CONFLICT, ex.getMessage());
         }
     }
     
     @GET
     @Path("/{handle}/tweets")
     @Produces("application/json")
-    @ApiOperation(value = "Gets the list of tweets of a user", notes = "Gets", response = Tweet.class)
+    @ApiOperation(value = "Get tweets of a user", notes = "Gets", response = Tweet.class)
     @ApiResponses(value = {
-    @ApiResponse(code = 400, message = "Invalid handle supplied"),
-    @ApiResponse(code = 404, message = "Tweets not found") 
+    @ApiResponse(code = 404, message = "Invalid handle supplied"),
+    @ApiResponse(code = 204, message = "No tweets")        
     })
     public List<Tweet> getTweets(@PathParam("handle") String handle){
         List<Tweet> tweets = null;
         try{
             tweets = db.getTweets(handle);
         } catch (DbException ex){
-            throw new ServicesException(ex.getMessage());
+            if(ex.getMessage().contains("tweets")){
+                throw new ServicesException(Response.Status.NO_CONTENT, ex.getMessage());
+            } else {
+                throw new ServicesException(Response.Status.NOT_FOUND, ex.getMessage());
+            }
         }
         return tweets;
    }
@@ -101,6 +108,8 @@ public class GenericResource {
     @POST
     @Path("/{handle}/tweets")
     @Consumes("text/plain")
+    @ApiOperation(value = "Add a tweet for a user", notes = "Add a tweet for the user whos handle is specified")
+    @ApiResponse(code = 404, message = "Invalid handle supplied")
     public void addTweet(@PathParam("handle") String handle, String content){
            
         Tweet tweet = new Tweet(content, handle);
@@ -112,21 +121,26 @@ public class GenericResource {
         try {
             db.addTweet(handle, tweet);
         } catch (DbException ex) {
-            throw new ServicesException(ex.getMessage());
+            throw new ServicesException(Response.Status.NOT_FOUND, ex.getMessage());
         }
     }
 
     @GET
     @Path("{handle}/followers")
+    @ApiOperation(value = "Get followers of a user", notes = "Get the list of followers of the user whos handle is specified")
+    @ApiResponses(value = {
+    @ApiResponse(code = 404, message = "Invalid handle supplied"),
+    @ApiResponse(code = 204, message = "No Followers")
+    })
     public List<User> getFollowers(@PathParam("handle") String handle){
         List<User> followers;
         try {
             followers = db.getFollowers(handle);
         } catch (DbException ex) {
-            throw new ServicesException(ex.getMessage());
+            throw new ServicesException(Response.Status.NOT_FOUND, ex.getMessage());
         }
         if(followers == null){
-             throw new ServicesException("No followers for : " + handle);
+             throw new ServicesException(Response.Status.NO_CONTENT, "No followers for : " + handle);
         }
         
         return followers;
@@ -134,15 +148,20 @@ public class GenericResource {
 
     @GET
     @Path("{handle}/followings")
+    @ApiOperation(value = "Get followings of a user", notes = "Get the list of followings of the user whos handle is specified")
+    @ApiResponses(value = {
+    @ApiResponse(code = 404, message = "Invalid handle supplied"),
+    @ApiResponse(code = 204, message = "No Followings")
+    })
     public List<User> getFollowing(@PathParam("handle") String handle) {
         List<User> followings;
         try {
             followings = db.getFollowing(handle);
         } catch (DbException ex) {
-            throw new ServicesException(ex.getMessage());
+            throw new ServicesException(Response.Status.NOT_FOUND, ex.getMessage());
         }
         if(followings == null){
-            throw new ServicesException("No followings for : " + handle);
+            throw new ServicesException(Response.Status.NO_CONTENT, "No followings for : " + handle);
         }
         
         return followings;
@@ -150,23 +169,27 @@ public class GenericResource {
 
     @POST
     @Path("{handle}/followings")
+    @ApiOperation(value = "Follow a user", notes = "Follow the user whos handle is specified")
+    @ApiResponse(code = 404, message = "Invalid handle supplied")
     public void follow(@PathParam("handle") String handle, String toFollowHandler){
         
         try {
             db.follow(handle, toFollowHandler);
         } catch (DbException ex) {
-            throw new ServicesException(ex.getMessage());
+            throw new ServicesException(Response.Status.NOT_FOUND, ex.getMessage());
         }
     }
 
     @DELETE
     @Path("{handle}/followings")
     @Consumes("application/json")
+    @ApiOperation(value = "Unfollow a user", notes = "Unfollow the user whos handle is specified")
+    @ApiResponse(code = 404, message = "Invalid handle supplied")
     public void stopFollowing(@PathParam("handle") String handle, String toUnFollowHandler){
         try {
             db.unFollow(handle, toUnFollowHandler);
         } catch (DbException ex) {
-            throw new ServicesException(ex.getMessage());
+            throw new ServicesException(Response.Status.NOT_FOUND, ex.getMessage());
         }
     }
 //
@@ -191,6 +214,7 @@ public class GenericResource {
     @GET
     @Path("/users")
     @Produces("application/json")
+    @ApiOperation(value = "Get the users of the API", notes = "Get the list of all the users of the API")
     public List<User> getUsers() {              
         return db.getUsers();
     }

@@ -58,7 +58,7 @@ public class DbRepoMongo implements IDbRepo{
         
         DBCollection coll = clientDB.getCollection("users");
         if(getUser(user.getHandle()) != null){
-            throw new DbException("Handle already userd : " + user.getHandle());
+            throw new DbException("Handle already used : " + user.getHandle());
         }
         
         DBObject doc = new BasicDBObject("handle", user.getHandle()).append("password", AccountManager.generateHash(user.getPassword())) .append("server", user.getPassword());
@@ -204,6 +204,7 @@ public class DbRepoMongo implements IDbRepo{
     
     @Override
     public void addTweet(String handler, Tweet tweet) throws DbException{
+        verifyUser(handler);
         DBCollection coll = clientDB.getCollection("tweets");
         
         /*
@@ -224,7 +225,6 @@ public class DbRepoMongo implements IDbRepo{
         }
         */
         
-        verifyUser(handler);
         DBObject searchQuery = new BasicDBObject().append("handle", handler);
         //On vérifie si l'utilisateur tweet pour la première fois ou pas
         if(coll.findOne(searchQuery) == null){
